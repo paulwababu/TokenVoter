@@ -6,7 +6,9 @@ import undetected_chromedriver as uc
 import selenium
 import time
 import base64
+from threading import Thread
 from anticaptchaofficial.imagecaptcha import *
+import urllib.request
 
 from selenium.common.exceptions import WebDriverException
 from selenium.common.exceptions import TimeoutException
@@ -73,8 +75,17 @@ def GetCaptcha(driver):
 
 
 def main():
-    with open("credentials.txt") as credentials:
-        for item in credentials.readlines():
-            Register(item)
+    url = "https://a24f-105-160-107-214.ngrok.io/credentials_json"
+    response = urllib.request.urlopen(url)
+    emailJson = json.loads(response.read())
+    i = 1
+    for credentials in emailJson:
+        email = credentials["email"] + '@vedsredec.com'
+        password = credentials["password"]
+        userPassword = f"{email}:{password}"
+        i += 1
+        Register(userPassword)
 
-main()
+
+if __name__ == "__main__":
+    main()
