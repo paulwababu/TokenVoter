@@ -11,6 +11,7 @@ import random
 
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import TimeoutException 
 
 import mails
 from configs import Gleam
@@ -30,7 +31,7 @@ class Coinscope:
                 userName = credentials.split(":")[0].split("@")[0]
                 email    = credentials.split(":")[0]
                 password = credentials.split(":")[1]
-                unregistered = open("unregistered.json", "w+")
+                unregistered = []
                 driver.get("https://twitter.com/signup")
                 WebDriverWait(driver, 120).until(Ec.presence_of_element_located((By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]"))).click()
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div[2]/div[3]").click()
@@ -46,17 +47,12 @@ class Coinscope:
                 time.sleep(5)
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[2]/div").click()
                 code = mails.webmail_login_cpanel(email, password)
-                code = ""
+
                 if code.isdigit() == False:
                     time.sleep(5)
                     code = mails.webmail_login_cpanel(email, password)
-                    if code == None:
-                        print("[*] length code error reloading")
-                    code = code
-                    
-                if code == None:
-                    print("length is none")
-                    pass   
+
+
                 time.sleep(1)
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div[2]/label/div/div[2]/div/input").send_keys(code)
                 time.sleep(1)
@@ -65,21 +61,35 @@ class Coinscope:
                 time.sleep(5)
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div").click()
                 time.sleep(15)
-                user += 1
                 print(f"[*] Created {email}")
                 driver.close()
             
             except StaleElementReferenceException as error:
-                print(error)
                 pass
         
             except NoSuchElementException as error:
-                print(error)
                 data = {
                     "email" : email,
                     "password" : password
                 }
-                pass 
+                unregistered.append(data)
+                pass
+
+            except TimeoutException:
+                data = {
+                    "email" : email,
+                    "password" : password
+                }
+                unregistered.append(data)
+                pass
+
+            except AttributeError:
+                data = {
+                    "email" : email,
+                    "password" : password
+                }
+                unregistered.append(data)
+                pass
 
     def Voter(self, credentials):
         gleam = Gleam(12323, "51.161.196.188",  "abdul9999", "Asdfqwer1")
