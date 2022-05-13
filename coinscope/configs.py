@@ -98,6 +98,7 @@ class Gleam:
         chromeOptions.add_experimental_option("excludeSwitches", ["enable-automation"])
         chromeOptions.add_experimental_option('useAutomationExtension', False)
         chromeOptions.add_argument("--disable-blink-features=AutomationControlled")
+        chromeOptions.add_argument("--headless")
         service = Service("/home/dev/personalProjects/upwork/Audrey/GleamBot/driver/chromedriver")
         chromeOptions.add_argument('--no-sandbox')
         driver = webdriver.Chrome(service=service, options=chromeOptions)

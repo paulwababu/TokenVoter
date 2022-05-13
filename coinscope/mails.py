@@ -35,28 +35,25 @@ def webmail_login_cpanel(email, password):
         password = WebDriverWait(browser, 5).until(EC.element_to_be_clickable((By.XPATH, "//input[@id='pass']"))).send_keys(password)
         login = browser.find_element(By.ID, "login_submit").click() 
         WebDriverWait(browser, 15).until(EC.element_to_be_clickable((By.ID, "activeClientLogoContainer"))).click() 
-        time.sleep(30)
+        time.sleep(20)
         browser.refresh()    
         latest_email = browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[4]/table[2]/tbody/tr[1]/td[2]/span[3]/a/span").get_attribute("innerHTML")
-        print(latest_email.split(" ")[0])
         if len(latest_email) == 0:
-            time.sleep(30)
+            time.sleep(20)
             browser.refresh()
             latest_email = browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[4]/table[2]/tbody/tr[1]/td[2]/span[3]/a/span").get_attribute("innerHTML")
-            print(latest_email.split(" ")[0])
-
+            return latest_email.split(" ")[0]
         return latest_email.split(" ")[0]
-
+        
     except UnexpectedAlertPresentException:
         try:
-            print("unexepcted error occured")
+            print("[*] unexepcted error occured")
             browser.refresh()   
             WebDriverWait(browser, 30).until(EC.element_to_be_clickable((By.ID, "activeClientLogoContainer"))).click()
-            time.sleep(40)  
+            time.sleep(20)  
             browser.refresh()
             latest_email = browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[4]/table[2]/tbody/tr[1]/td[2]/span[3]/a/span").get_attribute("innerHTML")
-            print(latest_email)
-            return latest_email
+            return latest_email.split(" ")[0]
             
         except UnexpectedAlertPresentException:
             data = {
@@ -76,15 +73,13 @@ def webmail_login_cpanel(email, password):
             time.sleep(20)
             browser.refresh() 
             latest_email = browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[4]/table[2]/tbody/tr[1]/td[2]/span[3]/a/span").get_attribute("innerHTML")
-            print(latest_email)
-            return latest_email
+            return latest_email.split(" ")[0]
             
         except TimeoutException:
             time.sleep(20)
             browser.refresh() 
             latest_email = browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[4]/table[2]/tbody/tr[1]/td[2]/span[3]/a/span").get_attribute("innerHTML")
-            print(latest_email)
-            return latest_email
+            return latest_email.split(" ")[0]
 
 if __name__ == '__main__':
     webmail_login_cpanel("marywoods7d6@vedroy.xyz", "=i6v_^F621#aB!")    

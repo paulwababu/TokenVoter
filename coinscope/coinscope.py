@@ -34,7 +34,7 @@ class Coinscope:
                 password = credentials.split(":")[1]
                 unregistered = []
                 driver.get("https://twitter.com/signup")
-                WebDriverWait(driver, 120).until(Ec.presence_of_element_located((By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]"))).click()
+                WebDriverWait(driver, 60).until(Ec.presence_of_element_located((By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div/div/div/div[5]"))).click()
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/div[2]/div[3]").click()
                 driver.find_element(By.NAME, "name").send_keys(userName)
                 driver.find_element(By.NAME, "email").send_keys(email)
@@ -45,7 +45,7 @@ class Coinscope:
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div").click()
                 time.sleep(1)
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div").click()
-                time.sleep(15)
+                time.sleep(2)
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[2]/div").click()
                 code = mails.webmail_login_cpanel(email, password)
 
@@ -61,7 +61,6 @@ class Coinscope:
                 WebDriverWait(driver, 5).until(Ec.presence_of_element_located((By.NAME, "password"))).send_keys(password)
                 time.sleep(5)
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div").click()
-                time.sleep(15)
                 print(f"[*] Created {email}")
                 driver.close()
             
