@@ -12,6 +12,7 @@ import random
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException 
+from selenium.common.exceptions import WebDriverException
 
 import mails
 from configs import Gleam
@@ -44,7 +45,7 @@ class Coinscope:
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div").click()
                 time.sleep(1)
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div/div/div").click()
-                time.sleep(5)
+                time.sleep(15)
                 driver.find_element(By.XPATH, "/html/body/div/div/div/div[1]/div[2]/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/div/div[2]/div").click()
                 code = mails.webmail_login_cpanel(email, password)
 
@@ -87,6 +88,14 @@ class Coinscope:
                 data = {
                     "email" : email,
                     "password" : password
+                }
+                unregistered.append(data)
+                pass
+
+            except WebDriverException:
+                data = {
+                        "email" : email,
+                        "password" : password
                 }
                 unregistered.append(data)
                 pass
@@ -135,7 +144,7 @@ def CreateThreads():
     queue = Queue()
     AddEmails(queue=queue)
     coinscope = Coinscope()
-    for thread in range(0, 3):
+    for thrclearead in range(0, 3):
         worker = Thread(target=coinscope.RegisterTwitter, args=(queue, ))
         worker.start()
     queue.join()
